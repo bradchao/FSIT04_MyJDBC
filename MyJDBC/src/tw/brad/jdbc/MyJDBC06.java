@@ -11,7 +11,7 @@ public class MyJDBC06 {
 
 	public static void main(String[] args) {
 
-		String account = "eric", passwd = "123456", realname = "Eric";
+		String account = "tony", passwd = "123456", realname = "Brad";
 		
 		Properties props = new Properties();
 		props.setProperty("user", "root");
