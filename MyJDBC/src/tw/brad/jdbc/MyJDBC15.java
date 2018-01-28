@@ -19,6 +19,8 @@ public class MyJDBC15 extends JFrame {
 	private MyTableModel model;
 	private int dataCount;
 	private String[] fields;
+	private ResultSet rs2;
+	private Connection conn;
 	
 	public MyJDBC15() {
 		super("伴手禮");
@@ -43,8 +45,9 @@ public class MyJDBC15 extends JFrame {
 		props.setProperty("user", "root");
 		props.setProperty("password", "root");
 		
-		try(Connection conn = DriverManager.getConnection(
-				"jdbc:mysql://localhost/iii",props)){
+		try {
+			conn = DriverManager.getConnection(
+				"jdbc:mysql://localhost/iii",props);
 			PreparedStatement pstmt = conn.prepareStatement(
 				"SELECT count(*) as count FROM gift");
 			ResultSet rs = pstmt.executeQuery();
@@ -52,7 +55,9 @@ public class MyJDBC15 extends JFrame {
 			
 			PreparedStatement pstmt2 = conn.prepareStatement(
 					"SELECT * FROM gift");
-			ResultSet rs2 = pstmt2.executeQuery();
+			rs2 = pstmt2.executeQuery();
+			
+
 			
 			ResultSetMetaData metadata = rs2.getMetaData();
 			fields = new String[metadata.getColumnCount()];
@@ -63,7 +68,7 @@ public class MyJDBC15 extends JFrame {
 			
 			
 		}catch(Exception e) {
-			
+			System.out.println(e.toString());
 		}
 	
 	}
@@ -87,7 +92,17 @@ public class MyJDBC15 extends JFrame {
 
 		@Override
 		public Object getValueAt(int row, int col) {
-			return "Brad";
+
+
+			try{
+
+				rs2.absolute(row+1);
+				
+				return rs2.getString(col+1);
+			}catch(Exception e) {
+				return "---";
+			}
+			
 		}
 
 		@Override
